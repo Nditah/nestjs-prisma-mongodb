@@ -1,22 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { findManyCursorConnection } from '@devoxa/prisma-relay-cursor-connection';
-import { CreateBookInput } from './dto/create-book.input';
-import { UpdateBookInput } from './dto/update-book.input';
+import { CreateAuthorInput } from './dto/create-author.input';
+import { UpdateAuthorInput } from './dto/update-author.input';
 
 @Injectable()
-export class BookService {
+export class AuthorService {
   constructor(private prisma: PrismaService) {}
 
-  async create(data: CreateBookInput) {
-    return this.prisma.book.create({
+  async create(data: CreateAuthorInput) {
+    return this.prisma.author.create({
       data: {
-        title: data.title,
-        isbn: data.isbn,
-        description: data.description,
-        author: data.author && { connect: { id: data.author } },
-        publishedYear: data.publishedYear,
-        publisher: data.publisher,
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
       },
     });
   }
@@ -32,17 +31,17 @@ export class BookService {
       };
       params.skip && (filter.skip = params.skip);
       params.take && (filter.take = params.take);
-      params.publishedYear &&
-        (filter.where.publishedYear = params.publishedYear);
+      params.email && (filter.where.email = params.email);
       params.query && (filter.where.title = { contains: query });
       params.query &&
         (filter.where.OR = [
           { title: { contains: query } },
+          { author: { contains: query } },
           { publisher: { contains: query } },
         ]);
       return findManyCursorConnection(
-        (args) => this.prisma.book.findMany({ ...args, ...filter }),
-        () => this.prisma.book.count({ where: filter.where }),
+        (args) => this.prisma.author.findMany({ ...args, ...filter }),
+        () => this.prisma.author.count({ where: filter.where }),
         { first, last, before, after },
       );
     } catch (err) {
@@ -51,30 +50,32 @@ export class BookService {
   }
 
   async findOne(id: string) {
-    return this.prisma.book.findUnique({
+    return this.prisma.author.findUnique({
       where: { id },
     });
   }
 
-  async update(data: UpdateBookInput) {
-    return this.prisma.book.update({
+  async update(data: UpdateAuthorInput) {
+    return this.prisma.author.update({
       data: {
-        title: data.title,
-        isbn: data.isbn,
-        description: data.description,
-        author: data.author && { connect: { id: data.author } },
-        publishedYear: data.publishedYear,
-        publisher: data.publisher,
+        firstName: data.firstName,
+        middleName: data.middleName,
+        lastName: data.lastName,
+        email: data.email,
+        phone: data.phone,
       },
       where: { id: data.id },
     });
   }
 
   async remove(id: string) {
-    return this.prisma.book.update({ where: { id }, data: { deleted: true } });
+    return this.prisma.author.update({
+      where: { id },
+      data: { deleted: true },
+    });
   }
 
   async drop(id: string) {
-    return this.prisma.book.delete({ where: { id } });
+    return this.prisma.author.delete({ where: { id } });
   }
 }

@@ -8,6 +8,8 @@ import { loggingMiddleware } from './middleware';
 import { GqlConfigService } from './configs/gql-config.service';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { BookModule } from './api/book/book.module';
+import { AuthorModule } from './api/author/author.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { AppService } from './app.service';
         middlewares: [loggingMiddleware(new Logger('PrismaMiddleware'))],
       },
     }),
+    AuthorModule,
+    BookModule,
   ],
   controllers: [AppController],
   providers: [AppService],

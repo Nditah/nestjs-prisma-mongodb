@@ -1,4 +1,5 @@
 import { ObjectType, Field, Int, InputType } from '@nestjs/graphql';
+import { Author } from 'src/api/author/entities/author.entity';
 import { BaseModel } from 'src/common/models/base.model';
 
 @InputType('BookInput')
@@ -19,8 +20,8 @@ export class Book extends BaseModel {
   })
   description?: string;
 
-  @Field(() => String, { description: 'Book Author' })
-  author: string;
+  @Field(() => Author, { nullable: true, description: 'Book Author' })
+  author?: Author;
 
   @Field(() => String, { description: 'Book Publisher' })
   publisher: string;
