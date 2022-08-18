@@ -71,3 +71,80 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](LICENSE).
+
+```gql
+mutation createBook {
+ createBook(data: {
+  title: "Things Fall Apart"
+  isbn: "978-3-16-148410-0"
+  description: "Good mena re hard to fine"
+  # author
+  publishedYear: 2004
+  publisher: "Hellneimann Educationa Books"
+}) {
+  id 
+  title
+  isbn
+  description
+  author {
+    id 
+    firstName
+  }
+  publishedYear
+  publisher
+ }
+}
+
+mutation updateBook {
+ updateBook(data: {
+	id: "62fe8baa2b25a28c597eaf67"
+  title: "Things Fall Apart"
+  isbn: "978-3-16-148410-0"
+  description: "Good mena re hard to fine"
+  # author
+  publishedYear: 2004
+  publisher: "Hellneimann Educationa Books"
+}) {
+  id 
+  title
+  isbn
+  description
+  author {
+    id 
+    firstName
+  }
+  publishedYear
+  publisher
+ }
+}
+
+query allBooks {
+  allBooks {
+  id 
+  title
+  isbn
+  description
+  author {
+    id 
+    firstName
+  }
+  publishedYear
+  publisher
+  }
+}
+
+query oneBook {
+  oneBook(id: "62fe8baa2b25a28c597eaf67") {
+  id 
+  title
+  isbn
+  description
+  author {
+    id 
+    firstName
+  }
+  publishedYear
+  publisher
+  }
+}
+```

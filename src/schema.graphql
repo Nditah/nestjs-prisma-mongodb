@@ -1,0 +1,232 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+"""Author model"""
+type Author {
+  """Author array of Books"""
+  books: [Book!]
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime
+
+  """Identifies the user who created the record"""
+  createdBy: String
+
+  """Identifies the object that has been soft deleted."""
+  deleted: Boolean!
+
+  """Identifies the date and time when the object was created."""
+  deletedAt: DateTime
+
+  """Identifies the Stringuser who deleted the record"""
+  deletedBy: String
+
+  """Author email"""
+  email: String!
+
+  """Author first Name"""
+  firstName: String!
+  id: ID!
+
+  """Author last Name"""
+  lastName: String!
+
+  """Author middle Name"""
+  middleName: String
+
+  """Author phone"""
+  phone: String
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime
+
+  """Identifies the user who updated the record"""
+  updatedBy: String
+}
+
+input AuthorInput {
+  """Author array of Books"""
+  books: [BookInput!]
+
+  """Author email"""
+  email: String!
+
+  """Author first Name"""
+  firstName: String!
+
+  """Author last Name"""
+  lastName: String!
+
+  """Author middle Name"""
+  middleName: String
+
+  """Author phone"""
+  phone: String
+}
+
+"""Book model"""
+type Book {
+  """Book Author"""
+  author: Author
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime
+
+  """Identifies the user who created the record"""
+  createdBy: String
+
+  """Identifies the object that has been soft deleted."""
+  deleted: Boolean!
+
+  """Identifies the date and time when the object was created."""
+  deletedAt: DateTime
+
+  """Identifies the Stringuser who deleted the record"""
+  deletedBy: String
+
+  """Book Description or extract"""
+  description: String
+  id: ID!
+
+  """Book International Standard Book Number"""
+  isbn: String
+
+  """Year the book is published"""
+  publishedYear: Int!
+
+  """Book Publisher"""
+  publisher: String!
+
+  """Book title"""
+  title: String!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime
+
+  """Identifies the user who updated the record"""
+  updatedBy: String
+}
+
+input BookInput {
+  """Book Author"""
+  author: AuthorInput
+
+  """Book Description or extract"""
+  description: String
+
+  """Book International Standard Book Number"""
+  isbn: String
+
+  """Year the book is published"""
+  publishedYear: Int!
+
+  """Book Publisher"""
+  publisher: String!
+
+  """Book title"""
+  title: String!
+}
+
+input CreateAuthorInput {
+  """Author email"""
+  email: String!
+
+  """Author first Name"""
+  firstName: String!
+
+  """Author last Name"""
+  lastName: String!
+
+  """Author middle Name"""
+  middleName: String
+
+  """Author phone"""
+  phone: String
+}
+
+input CreateBookInput {
+  """Book Author"""
+  author: String
+
+  """Book Description or extract"""
+  description: String
+
+  """Book International Standard Book Number"""
+  isbn: String
+
+  """Year the book is published"""
+  publishedYear: Int!
+
+  """Book Publisher"""
+  publisher: String!
+
+  """Book title"""
+  title: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Mutation {
+  createAuthor(data: CreateAuthorInput!): Author!
+  createBook(data: CreateBookInput!): Book!
+  dropAuthor(id: String!): Author!
+  dropBook(id: String!): Book!
+  removeAuthor(id: String!): Author!
+  removeBook(id: String!): Book!
+  updateAuthor(data: UpdateAuthorInput!): Author!
+  updateBook(data: UpdateBookInput!): Book!
+}
+
+type Query {
+  allAuthors(query: String): [Author!]!
+  allBooks(query: String): [Book!]!
+  oneAuthor(id: String!): Author!
+  oneBook(id: String!): Book!
+}
+
+input UpdateAuthorInput {
+  """Author email"""
+  email: String
+
+  """Author first Name"""
+  firstName: String
+
+  """PrimaryKey"""
+  id: String!
+
+  """Author last Name"""
+  lastName: String
+
+  """Author middle Name"""
+  middleName: String
+
+  """Author phone"""
+  phone: String
+}
+
+input UpdateBookInput {
+  """Book Author"""
+  author: String
+
+  """Book Description or extract"""
+  description: String
+
+  """PrimaryKey"""
+  id: String!
+
+  """Book International Standard Book Number"""
+  isbn: String
+
+  """Year the book is published"""
+  publishedYear: Int
+
+  """Book Publisher"""
+  publisher: String
+
+  """Book title"""
+  title: String
+}

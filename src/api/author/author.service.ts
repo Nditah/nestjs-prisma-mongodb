@@ -20,33 +20,19 @@ export class AuthorService {
     });
   }
 
-  async findAll(params) {
-    try {
-      const { query, orderBy, after, before, first, last } = params;
-      const filter: any = {
-        where: {
-          deleted: false,
-        },
-        orderBy: orderBy ? { [orderBy.field]: orderBy.direction } : null,
-      };
-      params.skip && (filter.skip = params.skip);
-      params.take && (filter.take = params.take);
-      params.email && (filter.where.email = params.email);
-      params.query && (filter.where.title = { contains: query });
-      params.query &&
-        (filter.where.OR = [
-          { title: { contains: query } },
-          { author: { contains: query } },
-          { publisher: { contains: query } },
-        ]);
-      return findManyCursorConnection(
-        (args) => this.prisma.author.findMany({ ...args, ...filter }),
-        () => this.prisma.author.count({ where: filter.where }),
-        { first, last, before, after },
-      );
-    } catch (err) {
-      throw new Error(err.message);
-    }
+  async findAll(query?) {
+    const filter: any = {
+      where: {
+        deleted: false,
+      },
+    };
+    query && (filter.where.title = { contains: query });
+    query &&
+      (filter.where.OR = [
+        { firstName: { contains: query } },
+        { email: { contains: query } },
+      ]);
+    return this.prisma.book.findMany({ ...filter });
   }
 
   async findOne(id: string) {

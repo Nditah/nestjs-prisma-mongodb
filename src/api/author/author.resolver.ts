@@ -1,18 +1,8 @@
-import {
-  Resolver,
-  Query,
-  Mutation,
-  Args,
-  ResolveField,
-  Parent,
-} from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { AuthorService } from './author.service';
 import { Author } from './entities/author.entity';
 import { CreateAuthorInput } from './dto/create-author.input';
 import { UpdateAuthorInput } from './dto/update-author.input';
-import { AuthorPaginationArgs as PaginationArgs } from './author.pagination.args';
-import { AuthorRecordOrder as RecordOrder } from './inputs/record-order.input';
-import { AuthorConnection } from './entities/author-connection.entity';
 
 @Resolver(() => Author)
 export class AuthorResolver {
@@ -23,31 +13,12 @@ export class AuthorResolver {
     return this.authorService.create(data);
   }
 
-  @Query(() => AuthorConnection, { name: 'allAuthors' })
+  @Query(() => [Author], { name: 'allAuthors' })
   findAll(
-    @Args()
-    { skip, take, after, before, first, last, email }: PaginationArgs,
     @Args({ name: 'query', type: () => String, nullable: true })
     query: string,
-    @Args({
-      name: 'orderBy',
-      type: () => RecordOrder,
-      nullable: true,
-    })
-    orderBy: RecordOrder,
   ) {
-    const params = {
-      query,
-      orderBy,
-      skip,
-      take,
-      after,
-      before,
-      first,
-      last,
-      email,
-    };
-    return this.authorService.findAll(params);
+    return this.authorService.findAll(query);
   }
 
   @Query(() => Author, { name: 'oneAuthor' })

@@ -32,11 +32,9 @@ export class CreateBookInput {
   @IsOptional()
   description?: string;
 
-  @Field(() => String, { description: 'Book Author' })
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(3)
-  author: string;
+  @Field(() => String, { nullable: true, description: 'Book Author' })
+  @IsOptional()
+  author?: string;
 
   @Field(() => String, { description: 'Book Publisher' })
   @IsString()
